@@ -1,4 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_p.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/21 01:13:47 by kazumanoda        #+#    #+#             */
+/*   Updated: 2020/07/21 01:36:14 by kazumanoda       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
+
+int		ptr_len(unsigned long p)
+{
+	int		len;
+
+	len = 0;
+	while ((p /= 16))
+		len++;
+	return (len + 1);
+}
 
 void	hex_ptr(unsigned long p)
 {
@@ -17,55 +39,48 @@ void	hex_ptr(unsigned long p)
 	my_write(1, &c, 1);
 }
 
-
-// int	print_p(unsigned long p)
-// {
-// 	write(1, "0x", 2);
-// 	hex_ptr(p);
-// 	return (0);
-// }
-
-int	print_p(unsigned long p, char *flag, int fld, int pcn)
+void	out_p(unsigned long p, t_format f, int len)
 {
-	int len;
-
-	len = hex_len(p);
-	if (pcn == -1)
-		pcn = 0;
-	if ((pcn = pcn - len) < 0)
-	{
-		pcn = 0;
-	}
-	if ((fld = fld - (len + pcn + 2)) < 0)
-	{
-		fld = 0;
-	}
-	if (flag && *flag == '-')
+	if (f.flag && *f.flag == '-')
 	{
 		my_write(1, "0x", 2);
-		while (pcn--)
-		{
+		while (f.pcn--)
 			my_write(1, "0", 1);
-		}
-		hex_ptr(p);
-		while(fld--)
-		{
+		if (len)
+			hex_ptr(p);
+		while (f.fld--)
 			my_write(1, " ", 1);
-		}
-	} else {
-		while(fld--)
+	}
+	else
+	{
+		while (f.fld--)
 		{
-			if (flag && *flag == '0' && pcn == 0)
+			if (f.flag && *f.flag == '0' && f.pcn == 0)
 				my_write(1, "0", 1);
 			else
 				my_write(1, " ", 1);
 		}
 		my_write(1, "0x", 2);
-		while (pcn--)
-		{
+		while (f.pcn--)
 			my_write(1, "0", 1);
-		}
-		hex_ptr(p);
+		if (len)
+			hex_ptr(p);
 	}
-	return (0);
+}
+
+void	print_p(unsigned long p, t_format f)
+{
+	int len;
+
+	len = ptr_len(p);
+	if (f.pcn == -1)
+	{
+		f.pcn = 0;
+		len = 0;
+	}
+	if ((f.pcn = f.pcn - len) < 0)
+		f.pcn = 0;
+	if ((f.fld = f.fld - (len + f.pcn + 2)) < 0)
+		f.fld = 0;
+	out_p(p, f, len);
 }

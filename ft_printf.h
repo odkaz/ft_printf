@@ -1,34 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/21 01:13:36 by kazumanoda        #+#    #+#             */
+/*   Updated: 2020/07/21 01:39:25 by kazumanoda       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-#include <stdio.h>
-
-
 # include <stdlib.h>
 # include <unistd.h>
-#include <stdarg.h>
+# include <stdarg.h>
 # include <limits.h>
-#include "./libft/libft.h"
+# include "./libft/libft.h"
 
-int	my_write(int fd, char *str, unsigned int len);
-int	ft_printf(const char *s, ...);
-int	print_c(char c, char *flag, int fld, int pcn);
-int	dec_len(long n);
-int	print_int(int n, char *flag, int fld, int pcn);
-int	print_u(unsigned int n, char *flag, int fld, int pcn);
-int	print_lx(unsigned int n, char *flag, int fld, int pcn);
-int	print_p(unsigned long p, char *flag, int fld, int pcn);
-int	print_s(const char *s, char *flag, int fld, int pcn);
-int	print_x(unsigned int n, char *flag, int fld, int pcn);
-int	hex_len(unsigned long n);
+typedef struct	s_format{
+	char		*flag;
+	int			fld;
+	int			pcn;
+	char		*fmt;
+}				t_format;
 
-
-typedef struct {
-	char	*flag;
-	int		fld;
-	int		pcn;
-	char	*fmt;
-}			format_t;
-
+int				my_write(int fd, char *str, unsigned int len);
+int				ft_printf(const char *s, ...);
+void			print_c(char c, t_format f);
+int				dec_len(long n);
+void			print_int(int n, t_format f);
+void			print_u(unsigned int n, t_format f);
+void			print_p(unsigned long p, t_format f);
+void			print_s(const char *s, t_format f);
+void			print_x(unsigned int n, t_format f);
 
 #endif

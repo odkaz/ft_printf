@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_u.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/21 01:13:55 by kazumanoda        #+#    #+#             */
+/*   Updated: 2020/07/21 01:36:20 by kazumanoda       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 void	rec_num_u(unsigned int n)
@@ -17,52 +29,50 @@ void	rec_num_u(unsigned int n)
 	my_write(1, &c, 1);
 }
 
-int	print_u(unsigned int n, char *flag, int fld, int pcn)
+void	out_u(unsigned int n, t_format f, int len)
 {
-	int len;
-
-	len = dec_len(n);
-	if (pcn == -1)
+	if (f.flag && *f.flag == '-')
 	{
-		if (fld == 0)
-			return (0);
-		pcn = 0;
-		len = 0;
-	}
-	if ((pcn = pcn - len) < 0)
-	{
-		pcn = 0;
-	}
-	if ((fld = fld - (len + pcn)) < 0)
-	{
-		fld = 0;
-	}
-	if (flag && *flag == '-')
-	{
-		while (pcn--)
-		{
+		while (f.pcn--)
 			my_write(1, "0", 1);
-		}
 		if (len != 0)
 			rec_num_u(n);
-		while(fld--)
-		{
+		while (f.fld--)
 			my_write(1, " ", 1);
-		}
-	} else {
-		while(fld--)
+	}
+	else
+	{
+		while (f.fld--)
 		{
-			if (flag && *flag == '0' && pcn == 0)
+			if (f.flag && *f.flag == '0' && f.pcn == 0)
 				my_write(1, "0", 1);
 			else
 				my_write(1, " ", 1);
 		}
-		while (pcn--)
-		{
+		while (f.pcn--)
 			my_write(1, "0", 1);
-		}
 		if (len != 0)
 			rec_num_u(n);
 	}
-	return (0);
+}
+
+void	print_u(unsigned int n, t_format f)
+{
+	int len;
+
+	len = dec_len(n);
+	if (f.pcn == -1)
+	{
+		if (f.fld == 0)
+			return ;
+		f.pcn = 0;
+		len = 0;
+	}
+	if (f.pcn && f.flag && *f.flag == '0')
+		f.flag = NULL;
+	if ((f.pcn = f.pcn - len) < 0)
+		f.pcn = 0;
+	if ((f.fld = f.fld - (len + f.pcn)) < 0)
+		f.fld = 0;
+	out_u(n, f, len);
 }

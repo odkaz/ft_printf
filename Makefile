@@ -3,14 +3,11 @@ CC := gcc
 CFLAGS := -Wall -Wextra -Werror
 LIBS := ar -rc
 SRCS := ft_printf.c print_c.c print_int.c print_p.c \
-		print_s.c print_u.c print_x.c print_lx.c
+		print_s.c print_u.c print_x.c
 
 OBJS := $(SRCS:.c=.o)
 
 all: $(NAME)
-
-# $(NAME): $(OBJS)
-# 	$(LIBS) $(NAME) $^
 
 $(NAME): $(OBJS)
 	$(MAKE) -C ./libft
