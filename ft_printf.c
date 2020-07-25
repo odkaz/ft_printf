@@ -6,7 +6,7 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 01:13:29 by kazumanoda        #+#    #+#             */
-/*   Updated: 2020/07/21 02:35:36 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2020/07/25 17:44:40 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	conversion(t_format f, va_list args)
 	if (*f.fmt == 's')
 		print_s(va_arg(args, const char *), f);
 	if (*f.fmt == 'p')
-		print_p(va_arg(args, unsigned long), f);
+		print_p((size_t)va_arg(args, void *), f);
 	if (*f.fmt == 'd' || *f.fmt == 'i')
 		print_int(va_arg(args, int), f);
 	if (*f.fmt == 'u')

@@ -6,13 +6,13 @@
 /*   By: kazumanoda <kazumanoda@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 01:13:47 by kazumanoda        #+#    #+#             */
-/*   Updated: 2020/07/21 01:36:14 by kazumanoda       ###   ########.fr       */
+/*   Updated: 2020/07/25 17:42:26 by kazumanoda       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		ptr_len(unsigned long p)
+int		ptr_len(size_t p)
 {
 	int		len;
 
@@ -22,7 +22,7 @@ int		ptr_len(unsigned long p)
 	return (len + 1);
 }
 
-void	hex_ptr(unsigned long p)
+void	hex_ptr(size_t p)
 {
 	char	*base;
 	char	c;
@@ -39,7 +39,7 @@ void	hex_ptr(unsigned long p)
 	my_write(1, &c, 1);
 }
 
-void	out_p(unsigned long p, t_format f, int len)
+void	out_p(size_t p, t_format f, int len)
 {
 	if (f.flag && *f.flag == '-')
 	{
@@ -68,7 +68,7 @@ void	out_p(unsigned long p, t_format f, int len)
 	}
 }
 
-void	print_p(unsigned long p, t_format f)
+void	print_p(size_t p, t_format f)
 {
 	int len;
 
